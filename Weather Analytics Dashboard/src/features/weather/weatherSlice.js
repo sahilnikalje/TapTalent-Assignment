@@ -21,22 +21,23 @@ const initialState={
 const weatherSlice=createSlice({
     name:'weather',
     initialState,
-    reducers:{
-        fetchStart(state){
-            state.status='loading'
-            state.error=null
-        },
-        fetchSuccess(state, action){
-            state.status='succeeded'
-            state.current=action.payload.current
-            state.forecast=action.payload.forecast
-        },
-        fetchFailure(state, action){
-            state.status='failed'
-            state.error=action.payload
-        }
-    }
+    reducers:{},
+    extraReducers: (builder) => {
+    builder
+      .addCase(loadWeatherData.pending, (state) => {
+        state.status = "loading"
+        state.error = null
+      })
+      .addCase(loadWeatherData.fulfilled, (state, action) => {
+        state.status = "succeeded"
+        state.current = action.payload.current
+        state.forecast = action.payload.forecast
+      })
+      .addCase(loadWeatherData.rejected, (state, action) => {
+        state.status = "failed"
+        state.error = action.error.message
+      })
+  }
 })
 
-export const{fetchStart, fetchFailure, fetchSuccess}=weatherSlice.actions
 export default weatherSlice.reducer

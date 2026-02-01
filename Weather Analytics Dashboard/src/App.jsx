@@ -1,11 +1,19 @@
 import React from 'react'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Home from './pages/Home'
+import City from './pages/City'
 
 function App() {
   return (
-    <div>
-      Weather Analytics Dashboard
-    </div>
+     <BrowserRouter>
+          <Routes>
+               <Route path='/' element={<Home />}/>
+               <Route path='/city/:name' element={<City />}/>
+          </Routes>
+     </BrowserRouter>
   )
 }
 
 export default App
+
+

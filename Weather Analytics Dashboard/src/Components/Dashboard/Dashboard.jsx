@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import CityCard from "./CityCard";
 
 function Dashboard() {
-    const favourites=useSelector((state)=>state.favourites.cities)
+   const favourites = useSelector((state) => state.favourites.cities)
     const weather=useSelector((state)=>state.weather.current)
     const cities=favourites.length>0 ? favourites:weather?[weather.name] : []
 

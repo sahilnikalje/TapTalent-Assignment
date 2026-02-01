@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { loadWeatherData } from './../features/weather/weatherSlice';
+import Dashboard from '../Components/Dashboard/Dashboard';
+import SearchBar from '../Components/Search/SearchBar'
 
 function Home() {
     const dispatch=useDispatch()
     const unit=useSelector((state)=>state.settings.unit)
-    const{current, status, error}=useSelector((state)=>state.weather)
+    const status=useSelector((state)=>state.weather.status)
+    const error=useSelector((state)=>state.weather.error)
+
+    const[city, setCity]=useState('Pune')
 
     useEffect(()=>{
-        dispatch(loadWeatherData({city:'Pune', unit}))
-    },[dispatch, unit])
+        if(city){
+            dispatch(loadWeatherData({city, unit}))
+        }
+    },[dispatch,city, unit])
 
     if(status==='loading'){
         return <div>Loading...</div>
@@ -21,16 +28,9 @@ function Home() {
     
   return (
     <div>
-        <h1>Weather Dashboard</h1>
-
-        {current && (
-            <div>
-                <h2>{current.name}</h2>
-                <p>Temperature:{current.main.temp}</p>
-                <p>Humidity: {current.main.humidity}</p>
-                <p>Wind Speed: {current.wind.speed}</p>
-            </div>
-        )}
+        <h1>Weather Analytics Dashboard</h1>
+        <SearchBar onSelect={(selectedCity)=>setCity(selectedCity)}/>
+        <Dashboard />
     </div>
   )
 }
